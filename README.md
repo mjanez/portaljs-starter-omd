@@ -1,101 +1,196 @@
-# PortalJS OpenMetadata Frontend Starter
+<p align="right">
+  🌐 <a href="README.es.md">Leer en Español</a>
+</p>
 
-<div align="center">
+<h1 align="center">PortalJS OpenMetadata Starter</h1>
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/datopian/portaljs-frontend-starter)
+<p align="center">
+  <em>A modern, production-ready frontend template for OpenMetadata data catalogs</em>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Next.js 13+](https://img.shields.io/badge/Next.js-13%2B-black?logo=next.js&logoColor=white)](https://nextjs.org/) [![GitHub Stars](https://img.shields.io/github/stars/datopian/portaljs?style=social)](https://github.com/datopian/portaljs/stargazers)
+<p align="center">
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-14+-black?logo=next.js&logoColor=white" alt="Next.js 14+"></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.0+-blue?logo=typescript&logoColor=white" alt="TypeScript"></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-3.0+-38B2AC?logo=tailwind-css&logoColor=white" alt="Tailwind CSS"></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white" alt="Docker"></a>
+</p>
 
-**Adaptation of the [PortalJS Frontend Starter template](https://github.com/datopian/portaljs-frontend-starter) that works with Open Metadata**
-
-Powered by **[Next.js](https://nextjs.org)**, **[React](https://react.dev/)**, and **[Tailwind CSS](https://tailwindcss.com/)**
-
-**[🚀 Live Demo](https://portaljs-cloud-frontend-template.vercel.app/) • [📖 Documentation](https://portaljs.com/docs) • [☁️ PortalJS Cloud](https://cloud.portaljs.com/) • [🌐 Website](https://portaljs.com/)**
-
-</div>
+<p align="center">
+  <a href="#-features">Features</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-docker-deployment">Docker</a> •
+  <a href="#-customization">Customization</a> •
+  <a href="#-roadmap">Roadmap</a> •
+  <a href="#-contributing">Contributing</a>
+</p>
 
 ---
 
 ## Overview
 
-This template adapts the [PortalJS Frontend Starter template](https://github.com/datopian/portaljs-frontend-starter) so that it can be used with Open Metadata instead of CKAN.
+**PortalJS OpenMetadata Starter** is a decoupled frontend template designed to create beautiful, high-performance public data catalogs powered by [OpenMetadata](https://open-metadata.org/). It provides a modern React-based interface that connects seamlessly to your OpenMetadata instance, allowing you to showcase your data products to external users.
 
-> [!NOTE]
-> Currently, it serves mainly as a public PoC. Soon, we plan on moving this support to the main template.
+### What makes this project different?
 
-Use it to build decoupled Open Metadata public frontends with modern tools (Next.js, React, TailwindCSS)
+This project is built upon the excellent [PortalJS](https://github.com/datopian/portaljs) framework by [Datopian](https://datopian.com/), extending it specifically for OpenMetadata integration. While PortalJS focuses on CKAN backends, this template:
 
-## Important Notes
+- **Native OpenMetadata Support**: Direct integration with OMD APIs
+- **Data Product-Centric**: Built around OMD Data Products and Domains
+- **Enhanced Features**: Extended functionality beyond the base template
+- **Docker-First**: Production-ready containerization
+- **NPM Package Ready**: Prepared for distribution as a standalone package
 
-- This template abstracts the OMD taxonomy into a CKAN-like taxonomy:
-  - OMD Data Products are mapped to PortalJS Datasets
-  - OMD Domains are mapped to PortalJS Organizations
-  - The PortalJS Groups and Visualizations concepts have been removed
-- Currently, only Table assets can be previewed (this can be extended)
-- The template will fetch all Data Products and Domains from your OMD instance unconditionally. Conditions can be added either via BOT authorization rules or by modifying the data fetching queries.
+## Features
 
-## ✨ Features
+| Feature | Description |
+|---------|-------------|
+| **Modern UI** | Clean, responsive design with Tailwind CSS |
+| **High Performance** | Built on Next.js with SSR/SSG for optimal loading |
+| **OpenMetadata Integration** | Native support for OMD Data Products, Domains, and Tables |
+| **TypeScript** | Full type safety for better developer experience |
+| **Theming System** | Easy customization with component-based themes |
+| **Mobile-First** | Responsive design that works on all devices |
+| **Docker Ready** | Production containerization out of the box |
+| **Full-Text Search** | Powered by OpenMetadata's search capabilities |
+| **Data Preview** | Table asset preview with column metadata |
+| **Faceted Filtering** | Filter by domains, tags, and asset types |
 
-- **Modern UI** - Clean, responsive design with Tailwind CSS
-- **High Performance** - Built on Next.js 13+ with SSR/SSG
-- **Open Metadata Integration** - Seamless data fetching
-- **TypeScript** - Full type safety and better DX
-- **Easy Customizatio**n - Simple theme system and component styling
-- **Mobile-First** - Responsive design for all devices
-- **Deploy Ready** - One-click deployment to Vercel
+### Taxonomy Mapping
 
-## Getting started
+This template maps OpenMetadata concepts to familiar data catalog terminology:
 
-### Development
+| OpenMetadata | PortalJS Starter |
+|--------------|------------------|
+| Data Products | Datasets |
+| Domains | Organizations |
+| Tables | Resources |
+| Tags | Tags |
 
-1) Clone this repository
+## Quick Start
 
-2) Install the dependencies with `npm i`
+### Prerequisites
 
-3) Run `docker compose -f docker-compose-postgres.yml up` to start a local Open Metadata instance for development (NOTE: the local OMD instance comes with a Postgres database, which is automatically seeded with some dummy data)
+- Node.js 18+ (recommended: 22)
+- npm or yarn
+- Docker and Docker Compose (for local development)
 
-4) Navigate to `http://localhost:8585` and sign in to OMD with username `admin@open-metadata.org` and password `admin`.
+### Development Setup
 
-5) Create a new BOT for the frontend, and copy its access token
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/mjanez/portaljs-starter-omd.git
+   cd portaljs-starter-omd
+   ```
 
-6) Create a new `.env` file with:
+2. **Install dependencies**
+   ```bash
+   npm i
+   ```
+
+3. **Start OpenMetadata (local development)**
+   ```bash
+   docker compose -f docker-compose-postgres.yml up -d
+   ```
+   > This starts a local OpenMetadata instance with sample data at `http://localhost:8585`
+
+4. **Configure OpenMetadata BOT**
+   - Navigate to `http://localhost:8585`
+   - Login with `admin@open-metadata.org` / `admin`
+   - Create a new BOT for the frontend and copy its access token
+
+5. **Configure environment**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env`:
+   ```bash
+   NEXT_PUBLIC_DMS=http://localhost:8585
+   DMS_TOKEN=<your-bot-token>
+   ```
+
+6. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+7. **Open your browser**
+   Navigate to `http://localhost:3000`
+
+### Setting Up Sample Data
+
+1. In OpenMetadata, go to **Settings > Services > Database > Add New Service**
+2. Choose **PostgreSQL** and configure:
+   ```
+   Host: postgresql
+   Port: 5432
+   Username: openmetadata_user
+   Password: password
+   Database: postgres
+   ```
+3. Run metadata ingestion
+4. Create Domains and Data Products from the ingested assets
+
+## Docker Deployment
+
+### Full Stack (Recommended)
+
+Deploy OpenMetadata + PortalJS with a single command:
 
 ```bash
-# This is the URL of the OMD instance. 
-NEXT_PUBLIC_DMS=http://localhost:8585
+# 1. Copy environment template
+cp .env.example .env
 
-# This is the access token of the bot
-DMS_TOKEN=<bot-token>
+# 2. Start all services
+docker compose up -d
+
+# 3. Wait for OpenMetadata to be healthy (~2-3 min)
+docker compose logs -f openmetadata-server
+
+# 4. Initialize bot token (after OpenMetadata is ready)
+./scripts/00_init-bot-token.sh
+
+# 5. Setup sample data source and trigger ingestion
+.\scripts\01_setup-sample-data.sh
+
+# 6. Restart PortalJS with the new token
+docker compose up -d --build portaljs
 ```
 
-7) Run `npm run dev` to start the development server
+**Access the services:**
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| PortalJS | http://localhost:3000 | - |
+| OpenMetadata | http://localhost:8585 | `admin@open-metadata.org` / `admin` |
+| Airflow | http://localhost:8080 | `admin` / `admin` |
 
-8) Access `http://localhost:3000` in your browser (PortalJS portal)
+### Production Dockerfile
 
-9) In OMD, set up a new Postgres database service for the dummy data. Navigate to Settings > Services > Database > Add New Service, choose Postgres, and use the following info:
+Build and run the frontend as a standalone container:
 
 ```bash
-username: openmetadata_user
-password: password
-host and port: postgresql:5432
-database: postgres
+# Build the image
+docker build -t portaljs-omd:latest -f Dockerfile .
+
+# Run the container
+docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_DMS=https://your-omd-instance.com \
+  -e DMS_TOKEN=your-bot-token \
+  portaljs-omd:latest
 ```
 
-10) Once OMD has fetched the assets from the dummy data database, create Domains and Data Products to serve as your instance data
+### OpenMetadata Only (Development)
+
+If you already have PortalJS running locally with `npm run dev`:
+
+```bash
+# Start only OpenMetadata + sample database
+docker compose -f docker-compose-postgres.yml up -d
+```
 
 ## Customization
 
-This template was developed with Next.js/React and TailwindCSS.
-
-In order to learn more about how it can be customized, check the following documentations:
-
-- https://react.dev/
-- https://nextjs.org/docs
-- https://v3.tailwindcss.com/docs/installation
-
-### Quick Customizations
-
-#### Logo Customization
+### Logo Customization
 
 ```tsx
 // components/_shared/PortalDefaultLogo.tsx
@@ -108,10 +203,10 @@ export default function PortalDefaultLogo() {
 }
 ```
 
-#### Footer Links
+### Footer Links
 
 ```tsx
-// components/_shared/Footer.tsx - Update navigation object
+// components/_shared/Footer.tsx
 const navigation = {
   about: [
     { name: "About Us", href: "/about" },
@@ -128,33 +223,10 @@ const navigation = {
 };
 ```
 
-#### Homepage Content
+### Theme Components
 
 ```tsx
-// pages/index.tsx - Update title and description
-<Head>
-  <title>Your Portal Name</title>
-  <meta name="description" content="Your portal description" />
-</Head>
-```
-
-##### Dataset Search
-
-```tsx
-// lib/queries/dataset.ts - Add custom facet fields
-const facetFields = [
-  "groups",
-  "organization",
-  "res_format",
-  "tags",           // Enable tags
-  "license_id",     // Add license filtering
-]
-```
-
-#### Theme Components
-
-```tsx
-// themes/default/index.tsx - Replace with custom components
+// themes/default/index.tsx
 const DefaultTheme = {
   header: CustomHeader,
   footer: CustomFooter,
@@ -162,14 +234,41 @@ const DefaultTheme = {
 };
 ```
 
----
+### Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `NEXT_PUBLIC_DMS` | OpenMetadata instance URL | Yes |
+| `DMS_TOKEN` | Bot access token for API authentication | Yes |
+| `NEXT_PUBLIC_ORG` | Default organization filter (optional) | No |
+
+## Roadmap
+
+We're actively developing this template with the following planned improvements enumerated in the [ROADMAP](ROADMAP.md):
+
+Want to contribute to any of these features? See our [Contributing Guide](#-contributing)!
 
 ## Tech Stack
 
-- **Framework:** [Next.js 13+](https://nextjs.org/) with TypeScript
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **Data:** [CKAN API](https://docs.ckan.org/en/2.10/api/) via [@portaljs/ckan](https://www.npmjs.com/package/@portaljs/ckan)
-- **Deployment:** [Vercel](https://vercel.com/)
+| Technology | Purpose |
+|------------|---------|
+| [Next.js 14+](https://nextjs.org/) | React framework with SSR/SSG |
+| [TypeScript](https://www.typescriptlang.org/) | Type-safe development |
+| [Tailwind CSS](https://tailwindcss.com/) | Utility-first styling |
+| [PortalJS Components](https://github.com/datopian/portaljs) | Data portal UI components |
+| [Docker](https://www.docker.com/) | Containerization |
+| [OpenMetadata API](https://docs.open-metadata.org/) | Data catalog backend |
+
+## NPM Package (Coming Soon)
+
+We're working on publishing this as an npm package for easier integration:
+
+```bash
+# Future usage
+npx create-portaljs-omd my-data-portal
+cd my-data-portal
+npm run dev
+```
 
 ## Contributing
 
@@ -181,29 +280,40 @@ We welcome contributions! Here's how to get started:
 4. **Push** to the branch (`git push origin feature/amazing-feature`)
 5. **Open** a Pull Request
 
-## 📄 License
+### Development Commands
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+```bash
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run start      # Start production server
+npm run lint       # Run ESLint
+npm run typecheck  # Run TypeScript checks
+```
 
-## Need help or advanced features?
+## License
 
-This template covers basic portal functionality. For complex customizations, integrations, or enterprise features, [contact our team](mailto:portaljs@datopian.com) for professional services.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-- **Custom Design** - Tailored branding and UI/UX
-- **Advanced Features** - Custom integrations and functionality
-- **Enterprise Support** - Dedicated support and SLA
-- **Migration** - Help moving from existing portals
+### Attribution
+
+This project is based on [PortalJS](https://github.com/datopian/portaljs) by [Datopian](https://datopian.com/), which is also licensed under the MIT License. We extend our gratitude to the Datopian team for their excellent work on the PortalJS ecosystem.
+
+```
+Original work Copyright (c) 2024 Datopian
+Modifications Copyright (c) 2025 mjanez
+```
+
+## Acknowledgments
+
+- **[Datopian](https://datopian.com/)** - For creating PortalJS and the frontend starter template
+- **[OpenMetadata](https://open-metadata.org/)** - For the amazing open-source data catalog
+- **[Vercel](https://vercel.com/)** - For Next.js and deployment platform
+- All contributors who help improve this project
 
 ---
 
-<div align="center">
-
-**Built with ❤️ by [Datopian](https://datopian.com/)**
-
-Let’s build better data portals together 🚀
-
-**⭐️ [Star PortalJS](https://github.com/datopian/portaljs) • [🐦 Follow us](https://www.linkedin.com/company/10340373) • [💬 Contact](mailto:portaljs@datopian.com)**
-
-**[📚 Docs](https://portaljs.com/docs) • [ 🐛 Report a bug or suggest an idea](https://github.com/datopian/portaljs/issues)**
-
-</div>
+<p align="center">
+  <a href="https://github.com/mjanez/portaljs-starter-omd/issues">Report Bug</a> •
+  <a href="https://github.com/mjanez/portaljs-starter-omd/issues">Request Feature</a> •
+  <a href="https://github.com/mjanez/portaljs-starter-omd/discussions">Discussions</a>
+</p>
