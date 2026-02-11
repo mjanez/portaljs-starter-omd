@@ -68,16 +68,26 @@ export async function getDomain({
 export async function getDomainDataProducts(
   domain: string
 ): Promise<Dataset[]> {
-  const searchParams = new URLSearchParams();
-  const query = `domains.displayName.keyword:"${domain}" AND entityType.keyword:dataproduct`;
-  searchParams.set("q", query);
-  searchParams.set("index", "dataAsset");
-  const endpoint = `search/query?${searchParams.toString()}`;
-  const res = await omdFetch({ endpoint });
+  try {
+    const searchParams = new URLSearchParams();
+    const query = `domains.displayName.keyword:"${domain}"`;
+    searchParams.set("q", query);
+    searchParams.set("index", "data_product_search_index");
+    const endpoint = `search/query?${searchParams.toString()}`;
+    const res = await omdFetch({ endpoint });
 
-  const data = await res.json();
-  const datasets = data.hits.hits.map((d) => dataProductToDataset(d._source));
-  return datasets;
+    if (!res.ok) {
+      console.error(`getDomainDataProducts error: ${res.status} ${res.statusText}`);
+      return [];
+    }
+
+    const data = await res.json();
+    const datasets = data?.hits?.hits?.map((d: any) => dataProductToDataset(d._source)) ?? [];
+    return datasets;
+  } catch (error) {
+    console.error("getDomainDataProducts exception:", error);
+    return [];
+  }
 }
 
 async function listDomainVersions({ id }: { id: string }) {
@@ -156,7 +166,13 @@ export async function getAllDomains(): Promise<Organization[]> {
   const endpoint = `domains`;
   const res = await omdFetch({ endpoint });
   const data = await res.json();
-  return data.data.map((d) => domainToOrg(d));
+
+  if (!data?.data) {
+    console.warn("No domains found or invalid response format", data);
+    return [];
+  }
+
+  return data.data.map((d: any) => domainToOrg(d));
 }
 
 export function domainToOrg(domain: any): Organization {

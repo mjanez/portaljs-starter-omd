@@ -214,7 +214,7 @@ export async function searchDataProducts(options: PackageSearchOptions) {
     filters.push(`assets.type:(${options.resFormat.join(" OR ")})`);
   }
 
-  filters.push(`entityType.keyword:dataproduct`);
+  // filters.push(`entityType.keyword:dataproduct`);
   filters.push(`deleted:false`);
 
   if (options.query) {
@@ -225,56 +225,69 @@ export async function searchDataProducts(options: PackageSearchOptions) {
   queryParams.push(`q=${queryString}`);
   queryParams.push("track_total_hits=true");
 
-  const endpoint = `search/query?index=dataAsset&${queryParams.join("&")}`;
+  const endpoint = `search/query?index=data_product_search_index&${queryParams.join("&")}`;
 
-  const res = await omdFetch({ endpoint });
-  const data = await res.json();
+  try {
+    const res = await omdFetch({ endpoint });
 
-  const search_facets = {
-    organization: await getFacets(
-      queryString,
-      "domains.displayName.keyword",
-      "organization"
-    ),
-    tags: await getFacets(queryString, "tags.name.keyword", "tags"),
-    res_format: await getFacets(queryString, "assets.type", "res_format"),
-  };
+    if (!res.ok) {
+      console.error(`searchDataProducts error: ${res.status} ${res.statusText}`);
+      return { count: 0, datasets: [], search_facets: { organization: { title: "organization", items: [] }, tags: { title: "tags", items: [] }, res_format: { title: "res_format", items: [] } } };
+    }
 
-  const searchResults = {
-    count: data.hits.total.value,
-    datasets: data.hits.hits.map((r) => dataProductToDataset(r._source)),
-    search_facets: search_facets,
-  };
+    const data = await res.json();
 
-  return searchResults;
+    const search_facets = {
+      organization: await getFacets(
+        queryString,
+        "domains.displayName.keyword",
+        "organization"
+      ),
+      tags: await getFacets(queryString, "tags.name.keyword", "tags"),
+      res_format: await getFacets(queryString, "assets.type", "res_format"),
+    };
+
+    const searchResults = {
+      count: data?.hits?.total?.value ?? 0,
+      datasets: data?.hits?.hits?.map((r: any) => dataProductToDataset(r._source)) ?? [],
+      search_facets: search_facets,
+    };
+
+    return searchResults;
+  } catch (error) {
+    console.error("searchDataProducts exception:", error);
+    return { count: 0, datasets: [], search_facets: { organization: { title: "organization", items: [] }, tags: { title: "tags", items: [] }, res_format: { title: "res_format", items: [] } } };
+  }
 }
 
 export function dataProductToDataset(dataProduct: any): Dataset {
+  const domain = dataProduct.domains && dataProduct.domains.length > 0 ? dataProduct.domains[0] : null;
+
   return {
     id: dataProduct.id,
     name: dataProduct.fullyQualifiedName,
     title: dataProduct.displayName,
     notes: dataProduct.description,
-    metadata_modified: new Date(dataProduct.updatedAt).toISOString(),
+    metadata_modified: dataProduct.updatedAt ? new Date(dataProduct.updatedAt).toISOString() : new Date().toISOString(),
     version: dataProduct.version,
-    resources: dataProduct.assets.map((a) => ({
+    resources: dataProduct.assets?.map((a: any) => ({
       id: a.id,
       name: a.displayName,
       format: a.type,
       description: a.description ?? null,
-    })),
-    organization: {
-      id: dataProduct.domains.at(0).id,
-      name: dataProduct.domains.at(0).fullyQualifiedName,
-      title: dataProduct.domains.at(0).displayName,
-      display_name: dataProduct.domains.at(0).displayName,
-      description: dataProduct.domains.at(0).description,
+    })) || [],
+    organization: domain ? {
+      id: domain.id,
+      name: domain.fullyQualifiedName,
+      title: domain.displayName,
+      display_name: domain.displayName,
+      description: domain.description,
       is_organization: true,
       type: "organization",
       state: "active",
-      package_count: 123, // TODO: can we implement this?
-    },
-    tags: dataProduct.tags.map((t) => ({ display_name: t.name })),
+      package_count: 0,
+    } : null,
+    tags: dataProduct.tags?.map((t: any) => ({ display_name: t.name })) || [],
   };
 }
 
@@ -316,18 +329,40 @@ async function getFacets(queryFilter: string, field: string, name: string) {
   queryParams.push(`q=${queryFilter}`);
   queryParams.push(`value=.*`);
   queryParams.push(`field=${field}`);
-  const endpoint = `search/aggregate?index=dataAsset&${queryParams.join("&")}`;
-  const res = await omdFetch({ endpoint });
-  const data = await res.json();
-  const facet = {
-    title: name,
-    items: data.aggregations[`sterms#${field}`].buckets.map((f) => ({
-      name: f.key,
-      display_name: f.key,
-      count: f.doc_count,
-    })),
-  };
-  return facet;
+  const endpoint = `search/aggregate?index=data_product_search_index&${queryParams.join("&")}`;
+  try {
+    const res = await omdFetch({ endpoint });
+
+    // Check if response is ok
+    if (!res.ok) {
+      console.error(`Error fetching facets for ${field}: ${res.status} ${res.statusText}`);
+      return { title: name, items: [] };
+    }
+
+    const data = await res.json();
+
+    // Defensive check for aggregations structure
+    const aggKey = `sterms#${field}`;
+    const buckets = data?.aggregations?.[aggKey]?.buckets;
+
+    if (!buckets) {
+      console.warn(`Missing aggregations for field: ${field}. Data sample:`, JSON.stringify(data).substring(0, 200));
+      return { title: name, items: [] };
+    }
+
+    const facet = {
+      title: name,
+      items: buckets.map((f: any) => ({
+        name: f.key,
+        display_name: f.key,
+        count: f.doc_count,
+      })),
+    };
+    return facet;
+  } catch (error) {
+    console.error(`Exception fetching facets for ${field}:`, error);
+    return { title: name, items: [] };
+  }
 }
 
 export async function tableExport({ fqn }: { fqn: string }) {
@@ -339,9 +374,18 @@ export async function tableExport({ fqn }: { fqn: string }) {
 
 export async function listGlossaries() {
   const endpoint = `glossaries`;
-  const res = await omdFetch({ endpoint });
-  const data = await res.json();
-  return data;
+  try {
+    const res = await omdFetch({ endpoint });
+    if (!res.ok) {
+      console.error(`listGlossaries error: ${res.status} ${res.statusText}`);
+      return { data: [] };
+    }
+    const data = await res.json();
+    return { data: data?.data ?? [] };
+  } catch (error) {
+    console.error("listGlossaries exception:", error);
+    return { data: [] };
+  }
 }
 
 export async function getGlossaryTerm({
