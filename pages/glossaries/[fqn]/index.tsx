@@ -36,8 +36,8 @@ export default function TermPage({ term }) {
                 <div className="ml-1">
                   {!!relatedTerms?.length
                     ? relatedTerms.map((rt) => {
-                        return <span>{rt.name}</span>; // <GlossaryTermChipLink term={rt} />;
-                      })
+                      return <span key={rt.id ?? rt.name}>{rt.name}</span>; // <GlossaryTermChipLink term={rt} />;
+                    })
                     : "None"}
                 </div>
               </div>
