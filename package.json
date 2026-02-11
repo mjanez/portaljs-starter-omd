@@ -1,10 +1,32 @@
 {
-  "name": "portaljs-frontend-starter",
-  "version": "0.1.0",
-  "engines": {
-    "node": "22"
+  "name": "@portaljs/openmetadata-starter",
+  "version": "1.0.0",
+  "description": "A modern, production-ready frontend template for OpenMetadata data catalogs built with Next.js, React, and Tailwind CSS",
+  "author": "mjanez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mjanez/portaljs-starter-omd.git"
   },
-  "private": true,
+  "homepage": "https://github.com/mjanez/portaljs-starter-omd#readme",
+  "bugs": {
+    "url": "https://github.com/mjanez/portaljs-starter-omd/issues"
+  },
+  "keywords": [
+    "portaljs",
+    "openmetadata",
+    "data-catalog",
+    "nextjs",
+    "react",
+    "tailwindcss",
+    "data-portal",
+    "frontend",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
