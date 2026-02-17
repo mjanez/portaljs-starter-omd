@@ -8,7 +8,7 @@
 
 ### Docker Compose Full-Stack Deployment
 - [x] Unified `docker-compose.yml` with all services (PostgreSQL, Elasticsearch, OpenMetadata Server, Airflow Ingestion, PortalJS Frontend)
-- [x] Sample PostgreSQL database (`Dockerfile_postgres_data` + `postgres_data.sql`) with demo tables (actors, films, customers)
+- [x] Sample PostgreSQL database (`Dockerfile.postgres.data` + `postgres_data.sql`) with demo tables (actors, films, customers)
 - [x] Production-ready multi-stage `Dockerfile` for PortalJS (standalone Next.js output)
 - [x] Consolidated `.env` / `.env.example` (removed redundant `.env.docker` split)
 - [x] Health checks and dependency ordering between services
