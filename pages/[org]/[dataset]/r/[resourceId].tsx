@@ -17,19 +17,19 @@ import { Resource } from "@/schemas/resource.interface";
 import ActivityStream from "@/components/_shared/ActivityStream";
 
 const PdfViewer = dynamic(
-  () => import("@portaljs/components").then((mod) => mod.PdfViewer),
+  () => import("@portaljs/components").then((mod) => mod.PdfViewer as any),
   { ssr: false }
-);
+) as any;
 
 const ExcelViewer = dynamic(
-  () => import("@portaljs/components").then((mod) => mod.Excel),
+  () => import("@portaljs/components").then((mod) => mod.Excel as any),
   { ssr: false }
-);
+) as any;
 
 const MapViewer = dynamic(
-  () => import("@portaljs/components").then((mod) => mod.Map),
+  () => import("@portaljs/components").then((mod) => mod.Map as any),
   { ssr: false }
-);
+) as any;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let orgName = context.params?.org as string;
@@ -94,7 +94,7 @@ export default function ResourcePage({
       <ResourcePageStructuredData
         resource={resource}
         orgName={orgName}
-        dataset={dataset}
+        dataset={dataset as string}
       />
       <Layout>
         <div className="custom-container pt-[30px]">

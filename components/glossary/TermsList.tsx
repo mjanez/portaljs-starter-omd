@@ -61,6 +61,7 @@ export function TermsList({ path }: { path: string }) {
         return newData;
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiData?.data]);
 
   const columns = useMemo<
@@ -178,7 +179,7 @@ export function TermsList({ path }: { path: string }) {
                 })}
               </TableRow>
               {isLoading &&
-              r.original.fullyQualifiedName == directChildrenOf ? (
+                r.original.fullyQualifiedName == directChildrenOf ? (
                 <TableRow>
                   <TableCell>
                     <div className="p-4">Loading...</div>

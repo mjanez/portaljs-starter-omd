@@ -16,6 +16,14 @@ export type sortConfigProps = {
   direction: "asc" | "desc";
 } | null;
 
+const parseData: any = (stringData) => {
+  return Papa.parse(stringData, {
+    header: true, // If the CSV contains headers
+    skipEmptyLines: true, // Skip empty lines in the CSV
+    dynamicTyping: true,
+  });
+};
+
 interface DataStateContextProps {
   dataUrl: string;
   data: any[];
@@ -114,31 +122,24 @@ export const DataStateProvider = ({
     );
   };
 
-  const parseData: any = (stringData) => {
-    return Papa.parse(stringData, {
-      header: true, // If the CSV contains headers
-      skipEmptyLines: true, // Skip empty lines in the CSV
-      dynamicTyping: true,
-    });
-  };
-  const fetchData = async () => {
-    try {
-      const response = await fetch(dataUrl);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const csvText = await response.text();
-      const parsedData = parseData(csvText);
-      setData(parsedData.data);
-      setVisibleColumns(Object.keys(parsedData.data[0] || {}));
-    } catch (err) {
-      throw new Error(err.message);
-      //setError(err.message); // Handle errors (e.g., network issues)
-      // setLoading(false);
-    }
-  };
-
+  /* parseData removed from here */
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(dataUrl);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const csvText = await response.text();
+        const parsedData = parseData(csvText);
+        setData(parsedData.data);
+        setVisibleColumns(Object.keys(parsedData.data[0] || {}));
+      } catch (err: any) {
+        throw new Error(err.message);
+        //setError(err.message); // Handle errors (e.g., network issues)
+        // setLoading(false);
+      }
+    };
     fetchData();
   }, [dataUrl]);
 

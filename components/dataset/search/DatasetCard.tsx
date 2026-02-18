@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Dataset } from "@portaljs/ckan";
 import MultipleResourcesCard from "../_shared/MultipleResourcesCard";
@@ -34,7 +35,7 @@ export default function DatasetCard({
                 ]
                   } px-2 py-1 rounded-full text-xs flex items-center gap-1`}
               >
-                <img src="/images/icons/org.svg" alt="" />
+                <Image src="/images/icons/org.svg" alt="" width={16} height={16} />
                 {dataset.organization
                   ? dataset.organization.title
                   : "No organization"}
@@ -46,7 +47,7 @@ export default function DatasetCard({
               ]
                 } px-2 py-1 rounded-full text-xs flex items-center gap-1`}
             >
-              <img src="/images/icons/clock.svg" alt="" />
+              <Image src="/images/icons/clock.svg" alt="" width={16} height={16} />
               {dataset.metadata_modified && getTimeAgo(dataset.metadata_modified)}
             </span>
           </>

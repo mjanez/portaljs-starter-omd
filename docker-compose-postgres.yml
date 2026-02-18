@@ -18,7 +18,7 @@ services:
   data-postgresql:
     build:
       context: ./
-      dockerfile: Dockerfile_postgres_data
+      dockerfile: Dockerfile.postgres.data
     container_name: portaljs_sample_postgresql
     restart: always
     environment:

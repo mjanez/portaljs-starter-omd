@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Unified Docker Compose full-stack deployment** (`docker-compose.yml`) with all services: PostgreSQL, Elasticsearch, OpenMetadata Server, Airflow Ingestion, and PortalJS Frontend
-- **Sample data database** (`Dockerfile_postgres_data` + `postgres_data.sql`) with demo tables (actors, films, customers) auto-loaded on startup
+- **Sample data database** (`Dockerfile.postgres.data` + `postgres_data.sql`) with demo tables (actors, films, customers) auto-loaded on startup
 - **Automated setup script** (`scripts/01_setup-sample-data.sh`):
   - Registers sample PostgreSQL as a Database Service in OpenMetadata
   - Creates and triggers a metadata ingestion pipeline via Airflow

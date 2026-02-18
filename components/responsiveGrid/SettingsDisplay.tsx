@@ -54,7 +54,7 @@ export function SettingsDisplayPanel() {
 
   useEffect(() => {
     toggleCheckAll(visibleColumns.length === columns.length ? true : false);
-  }, [visibleColumns]);
+  }, [visibleColumns, columns.length]);
 
   const filteredCols = cols.filter((item) =>
     item?.toLocaleLowerCase().includes(columnSearchValue?.toLowerCase())
@@ -109,11 +109,10 @@ export function SettingsDisplayPanel() {
               <label
                 htmlFor={`resource-preview-column-checkall`}
                 tabIndex={0}
-                className={`h-5 w-5 min-w-[1.25rem] flex items-center justify-center rounded border-2 cursor-pointer ${
-                  checkAll
+                className={`h-5 w-5 min-w-[1.25rem] flex items-center justify-center rounded border-2 cursor-pointer ${checkAll
                     ? "bg-accent border-accent text-white"
                     : "bg-white border-gray-200"
-                } transition-colors`}
+                  } transition-colors`}
                 onKeyDown={(e) => {
                   if (e.key === " " || e.key === "Enter") {
                     handleCheckAll();
@@ -144,9 +143,8 @@ export function SettingsDisplayPanel() {
               const pinned = pinnedColumns.includes(column);
               return (
                 <div
-                  className={`flex items-center group px-4 py-2 hover:bg-accent-100 ${
-                    pinned ? "bg-accent-100 font-medium" : ""
-                  }`}
+                  className={`flex items-center group px-4 py-2 hover:bg-accent-100 ${pinned ? "bg-accent-100 font-medium" : ""
+                    }`}
                   key={column}
                 >
                   <div className="flex gap-2 justify-between w-full">
@@ -165,11 +163,10 @@ export function SettingsDisplayPanel() {
                     <label
                       htmlFor={`resource-preview-column-${column}-${x}`}
                       tabIndex={0}
-                      className={`h-5 w-5 min-w-[1.25rem] flex items-center justify-center rounded border-2 cursor-pointer ${
-                        active
+                      className={`h-5 w-5 min-w-[1.25rem] flex items-center justify-center rounded border-2 cursor-pointer ${active
                           ? "bg-accent border-accent text-white"
                           : "bg-white border-gray-200"
-                      } transition-colors`}
+                        } transition-colors`}
                       onKeyDown={(e) => {
                         if (e.key === " " || e.key === "Enter") {
                           toggleColumnVisibility(column);

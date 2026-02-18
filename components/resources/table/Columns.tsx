@@ -126,9 +126,8 @@ export default function ColumnsList({
                 <TableCell>
                   {glossaryTerms?.map((gt) => {
                     return (
-                      <Link href={`/glossaries/${gt.tagFQN}`}>
+                      <Link key={`col-${column.name}-glossary-${gt.name}`} href={`/glossaries/${gt.tagFQN}`}>
                         <Chip
-                          key={`col-${column.name}-glossary-${gt.name}`}
                           text={gt.name}
                         />
                       </Link>
