@@ -1,3 +1,5 @@
+import Link from "next/link";
+import Image from "next/image";
 import { getTimeAgo } from "@/lib/utils";
 import { Activity } from "@/schemas/activity.interface";
 
@@ -11,10 +13,12 @@ export default function ActivityStream({ activities }: ActivityStreamProps) {
         <div key={activity.id}>
           <div className="flex flex-row items-start mb-10">
             {activity.user_data?.image_display_url ? (
-              <div className="w-13 rounded-full">
-                <img
+              <div className="w-13 rounded-full relative h-[52px] w-[52px]">
+                <Image
                   src={activity.user_data.image_display_url}
                   alt="Profile picture of user"
+                  fill
+                  className="rounded-full object-cover"
                 />
               </div>
             ) : (

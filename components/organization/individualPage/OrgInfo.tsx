@@ -1,7 +1,7 @@
 import getConfig from "next/config";
 import Image from "next/image";
-import { Tag } from "ckan";
-import { Organization } from "ckan";
+import { Tag } from "@portaljs/ckan";
+import { Organization } from "@portaljs/ckan";
 import { getTimeAgo } from "@/lib/utils";
 
 export default function OrgInfo({ org }: { org: Organization }) {

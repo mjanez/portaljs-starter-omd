@@ -15,10 +15,8 @@ import { Dataset } from "@/schemas/dataset.interface";
 
 
 export default function MainSection({
-  groups,
   datasets,
 }: {
-  groups: Array<Group>;
   datasets: Array<Dataset>;
 }) {
   return (

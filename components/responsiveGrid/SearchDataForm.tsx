@@ -7,7 +7,7 @@ export default function SearchDataForm() {
     useResourceData();
   const debounceTimeout = useRef(null);
 
-  const queryData = async (value) => {
+  const queryData = useCallback(async (value) => {
     const response = await fetch(
       `/api/search-resource-data?query=${value}&url=${dataUrl}`
     );
@@ -16,7 +16,7 @@ export default function SearchDataForm() {
     }
     const filteredData = await response.json();
     setTableData(Papa.unparse(filteredData));
-  };
+  }, [dataUrl, setTableData]);
 
   // Debounced version of the queryData function without lodash
   const debouncedQueryData = useCallback(
@@ -28,7 +28,7 @@ export default function SearchDataForm() {
         queryData(value);
       }, 300);
     },
-    [dataUrl]
+    [queryData]
   );
 
   return (

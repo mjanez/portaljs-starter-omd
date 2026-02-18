@@ -1,6 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Example() {
@@ -15,12 +16,12 @@ export default function Example() {
         <div className="flex items-center gap-x-12">
           <span className="sr-only">Datopian</span>
           <Link href="/">
-            <img
+            <Image
               src="/images/logos/MainLogo.svg"
-              width="60px"
-              height="60px"
+              width={60}
+              height={60}
               alt="Portal"
-            ></img>
+            />
           </Link>
           <div className="hidden lg:flex lg:gap-x-12">
             <li className="flex gap-x-8 align-center">
@@ -61,12 +62,12 @@ export default function Example() {
           <div className="flex items-center justify-between">
             <span className="sr-only">Datopian</span>
             <Link href="/" className="-m-1.5 p-1.5">
-              <img
+              <Image
                 src="/images/logos/MainLogo.svg"
-                width="60px"
-                height="60px"
+                width={60}
+                height={60}
                 alt="Portal"
-              ></img>
+              />
             </Link>
             <button
               type="button"
